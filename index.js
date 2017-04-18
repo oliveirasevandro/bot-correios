@@ -48,8 +48,8 @@ app.post('/webhook', function (req, res) {
             entry.messaging.forEach(event => {
                 if (event.message) {
                     receivedMessage(event);
-                    // } else if (event.postback) {
-                    //     receivedPostback(event);
+                    } else if (event.postback) {
+                        receivedPostback(event);
                 } else {
                     console.log('Webhook received unknown event: ', event);
                 }
@@ -97,6 +97,20 @@ function receivedMessage(event) {
             });
     }
 
+}
+
+function receivedPostback(event) {
+    let senderId = event.sender.id;
+    let recipientId = event.recipient.id;
+    let timeOfPostback = event.timestamp;
+
+    let payload = event.postback.payload;
+
+    console.log('Received postback for user %d and page %d with payload "%s" at %d', senderId, recipientId, payload, timeOfPostback);
+
+    // When a postback is called, we'll send a message back to the sender to
+    // let them know it was successful
+    sendTextMessage(senderId, 'Digite o número de rastreio da encomenda');
 }
 
 function sendTextMessage(recipientId, messageText) {
