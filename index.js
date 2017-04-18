@@ -12,7 +12,7 @@ console.log(typeof rastreio);
 
 const app = express();
 
-const token = 'EAAGONAy92qABAETB4MClZCuMGXhhOYnPm5ZCaRRXc8DAHB0c8uzhPla3xCJWWOcngq8SELbNZAJj6w5eloDdJOkoXMWvfXGMRAspQgMcK83dTlsfFZAIOjTYcyXFZB2vTZAwTMAFmXnepM2itK6PdIl3WAGxbi9YwxnjLm26IytgZDZD';
+const token = process.env.PAGE_ACCESS_TOKEN;
 
 app.set('port', (process.env.PORT || 5000));
 
