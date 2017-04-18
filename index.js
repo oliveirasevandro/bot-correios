@@ -10,6 +10,7 @@ const rastreio = require('rastreio');
 
 console.log(typeof rastreio);
 console.log(rastreio.toString());
+Object.keys(rastreio).forEach(key => console.log(key));
 
 const app = express();
 
