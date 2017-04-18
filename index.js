@@ -38,10 +38,9 @@ app.post('/webhook', function (req, res) {
 
     let data = req.body;
 
-    console.log(JSON.stringify(data, ' ', 4));
+    // console.log(JSON.stringify(data, ' ', 4));
 
     if (data.object === 'page') {
-
         data.entry.forEach(entry => {
             let pageId = entry.id;
             let timeOfEvent = entry.time;
@@ -66,6 +65,17 @@ app.listen(app.get('port'), function () {
     console.log('running on port ', app.get('port'));
 });
 
+function checkOrder(messageText) {
+
+    let opcoes = {
+        resultado: 'U',
+        formato: 'humanize'
+    };
+
+    return rastreio([messageText], opcoes);
+}
+
+
 function receivedMessage(event) {
 
     let senderId = event.sender.id;
@@ -81,44 +91,26 @@ function receivedMessage(event) {
     let messageAttachments = message.attachments;
 
     if (messageText) {
-        sendTextMessage(senderId, messageText);
+        checkOrder(messageText)
+            .then(result => {
+                sendTextMessage(senderId, result);
+            });
     }
 
 }
 
 function sendTextMessage(recipientId, messageText) {
 
-    let opcoes = {
-        resultado: 'U',
-        formato: 'humanize'
+    let messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: messageText
+        }
     };
 
-    rastreio([messageText], opcoes)
-        .then(result => {
-            let messageData = {
-                recipient: {
-                    id: recipientId
-                },
-                message: {
-                    text: result
-                }
-            };
-
-            callSendApi(messageData);
-        })
-        .catch(error => {
-            let messageData = {
-                recipient: {
-                    id: recipientId
-                },
-                message: {
-                    text: 'Nao foi possivel verificar a encomenda: ' + error
-                }
-            };
-
-            callSendApi(messageData);
-        });
-
+    callSendApi(messageData);
 }
 
 function callSendApi(messageData) {
