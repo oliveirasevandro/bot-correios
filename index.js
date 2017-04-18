@@ -8,6 +8,9 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const rastreio = require('rastreio');
 
+console.log(typeof rastreio);
+console.log(rastreio.toString());
+
 const app = express();
 
 const token = 'EAAGONAy92qABAETB4MClZCuMGXhhOYnPm5ZCaRRXc8DAHB0c8uzhPla3xCJWWOcngq8SELbNZAJj6w5eloDdJOkoXMWvfXGMRAspQgMcK83dTlsfFZAIOjTYcyXFZB2vTZAwTMAFmXnepM2itK6PdIl3WAGxbi9YwxnjLm26IytgZDZD';
@@ -91,7 +94,7 @@ function sendTextMessage(recipientId, messageText) {
         formato: 'humanize'
     };
 
-    rastreio()
+    rastreio([messageText], opcoes)
         .then(result => {
             let messageData = {
                 recipient: {
