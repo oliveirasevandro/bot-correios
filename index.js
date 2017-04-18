@@ -6,6 +6,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
+const rastreio = require('rastreio');
+
 const app = express();
 
 const token = 'EAAGONAy92qABAETB4MClZCuMGXhhOYnPm5ZCaRRXc8DAHB0c8uzhPla3xCJWWOcngq8SELbNZAJj6w5eloDdJOkoXMWvfXGMRAspQgMcK83dTlsfFZAIOjTYcyXFZB2vTZAwTMAFmXnepM2itK6PdIl3WAGxbi9YwxnjLm26IytgZDZD';
@@ -83,16 +85,38 @@ function receivedMessage(event) {
 }
 
 function sendTextMessage(recipientId, messageText) {
-    let messageData = {
-        recipient: {
-            id: recipientId
-        },
-        message: {
-            text: messageText
-        }
+
+    let opcoes = {
+        resultado: 'TODOS',
+        formato: 'humanize'
     };
 
-    callSendApi(messageData);
+    rastreio([messageText], opcoes)
+        .then(result => {
+            let messageData = {
+                recipient: {
+                    id: recipientId
+                },
+                message: {
+                    text: result
+                }
+            };
+
+            callSendApi(messageData);
+        })
+        .catch(error => {
+            let messageData = {
+                recipient: {
+                    id: recipientId
+                },
+                message: {
+                    text: 'Nao foi possivel verificar a encomenda: ' + error
+                }
+            };
+
+            callSendApi(messageData);
+        });
+
 }
 
 function callSendApi(messageData) {
