@@ -91,7 +91,7 @@ function sendTextMessage(recipientId, messageText) {
         formato: 'humanize'
     };
 
-    rastreio([messageText], opcoes)
+    rastreio()
         .then(result => {
             let messageData = {
                 recipient: {
