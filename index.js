@@ -6,11 +6,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-const rastreio = require('rastreio');
-
-console.log(typeof rastreio);
-console.log(rastreio.toString());
-Object.keys(rastreio).forEach(key => console.log(key));
+const rastreio = require('rastreio').default;
 
 const app = express();
 
