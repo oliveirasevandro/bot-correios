@@ -193,16 +193,16 @@ function formatResult(result) {
         return 'Não foi possível localizar a encomenda';
     }
 
-    let text = 'Código: ' + resultAsJson.objeto.numero + '\n\n';
+    let text = 'Cód: ' + resultAsJson.objeto.numero + '\n\n';
 
     if (!resultAsJson.objeto.evento.length) {
         resultAsJson.objeto.evento = [resultAsJson.objeto.evento];
     }
 
     resultAsJson.objeto.evento.forEach(e => {
-       text = text + e.data + ' - ' + e.hora
-           + ' - ' + e.descricao
-           + ' - ' + e.local + ' - ' + e.cidade + ' - ' + e.uf + ' - ' +  '\n\n';
+       text = text + e.data + '-' + e.hora
+           + '-' + e.descricao
+           + '-' + e.local + '-' + e.cidade + '-' + e.uf + '-' +  '\n';
     });
 
     return text;
