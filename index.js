@@ -193,5 +193,13 @@ function formatResult(result) {
         return 'Não foi possível localizar a encomenda';
     }
 
+    return
+        `Código: ${result.objeto.numero}
+        blablabla
+        `;
+
+
+
+
     return result;
 }
