@@ -202,7 +202,7 @@ function formatResult(result) {
     resultAsJson.objeto.evento.forEach(e => {
        text = text + e.data + '-' + e.hora
            + '-' + e.descricao
-           + '-' + e.local + '-' + e.cidade + '-' + e.uf + '-' +  '\n';
+           + '-' + e.local + '-' + e.cidade + '-' + e.uf + '\n';
     });
 
     return text;
