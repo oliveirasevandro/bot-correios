@@ -193,13 +193,12 @@ function formatResult(result) {
         return 'Não foi possível localizar a encomenda';
     }
 
-    return
-        `Código: ${result.objeto.numero}
-        blablabla
-        `;
+    let text = 'Código: ' + resultAsJson.objeto.numero + '\n\n';
 
+    resultAsJson.objeto.evento.forEach(e => {
+       text.append(e.data + ' - ' + e.hora);
+    });
 
+    return text;
 
-
-    return result;
 }
