@@ -187,6 +187,8 @@ function callSendApi(messageData) {
 
 function formatResult(result) {
 
+    console.log('Formating result: ', result);
+
     if (result.erro) {
         return 'Não foi possível localizar a encomenda';
     }
