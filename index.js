@@ -145,8 +145,8 @@ function receivedPostback(event) {
             .then(formatResult)
             .then(result => {
                 sendTextMessage(senderId, result);
-            })
-            .then(() => sendTextMessage(senderId, 'Deseja rastrear outra encomenda? Digite o numero do rastreio abaixo'));
+                sendTextMessage(senderId, 'Deseja rastrear outra encomenda? Digite o numero do rastreio abaixo');
+            });
     }
 
 
