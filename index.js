@@ -205,6 +205,10 @@ function formatResult(result) {
            + '-' + e.local + '-' + e.cidade + '-' + e.uf + '\n';
     });
 
+    if (text.length > 640) {
+        return text.substr(0, 640);
+    }
+
     return text;
 
 }
