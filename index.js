@@ -195,8 +195,14 @@ function formatResult(result) {
 
     let text = 'Código: ' + resultAsJson.objeto.numero + '\n\n';
 
+    if (!resultAsJson.objeto.evento.length) {
+        resultAsJson.objeto.evento = [resultAsJson.objeto.evento];
+    }
+
     resultAsJson.objeto.evento.forEach(e => {
-       text = text + e.data + ' - ' + e.hora + '\n\n';
+       text = text + e.data + ' - ' + e.hora
+           + ' - ' + e.descricao
+           + ' - ' + e.local + ' - ' + e.cidade + ' - ' + e.uf + ' - ' +  '\n\n';
     });
 
     return text;
