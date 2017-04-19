@@ -196,7 +196,7 @@ function formatResult(result) {
     let text = 'Código: ' + resultAsJson.objeto.numero + '\n\n';
 
     resultAsJson.objeto.evento.forEach(e => {
-       text.append(e.data + ' - ' + e.hora);
+       text = text + e.data + ' - ' + e.hora + '\n\n';
     });
 
     return text;
