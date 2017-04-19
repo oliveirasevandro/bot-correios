@@ -142,6 +142,7 @@ function receivedPostback(event) {
         sendTextMessage(senderId, 'Digite o número de rastreio da encomenda');
     } else {
         checkOrder(payload)
+            .then(formatResult)
             .then(result => {
                 sendTextMessage(senderId, result);
             });
@@ -182,4 +183,13 @@ function callSendApi(messageData) {
             console.error(error);
         }
     });
+}
+
+function formatResult(result) {
+
+    if (result.erro) {
+        return 'Não foi possível localizar a encomenda';
+    }
+
+    return result;
 }
