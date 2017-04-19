@@ -48,8 +48,8 @@ app.post('/webhook', function (req, res) {
             entry.messaging.forEach(event => {
                 if (event.message) {
                     receivedMessage(event);
-                    } else if (event.postback) {
-                        receivedPostback(event);
+                } else if (event.postback) {
+                    receivedPostback(event);
                 } else {
                     console.log('Webhook received unknown event: ', event);
                 }
@@ -65,14 +65,16 @@ app.listen(app.get('port'), function () {
     console.log('running on port ', app.get('port'));
 });
 
-function checkOrder(messageText) {
+function checkOrder(payload) {
+
+    let payloadArray = payload.split(',');
 
     let opcoes = {
-        resultado: 'U',
-        formato: 'humanize'
+        resultado: payloadArray[0],
+        formato: 'json'
     };
 
-    return rastreio([messageText], opcoes);
+    return rastreio([payloadArray[1]], opcoes);
 }
 
 
@@ -91,15 +93,43 @@ function receivedMessage(event) {
     let messageAttachments = message.attachments;
 
     if (messageText) {
-        checkOrder(messageText)
-            .then(result => {
-                sendTextMessage(senderId, result);
-            });
+        sendTemplateMessage(senderId, messageText);
     }
 
 }
 
+function sendTemplateMessage(senderId, messageText) {
+
+    let templateMessage = {
+        recipient: {
+            id: senderId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: "Quais atualizações gostaria de visualizar?",
+                    buttons: [{
+                        type: "postback",
+                        title: "Todas",
+                        payload: "T," + messageText
+                    }, {
+                        type: "postback",
+                        title: "Última",
+                        payload: "U," + messageText
+                    }]
+                }
+            }
+        }
+    };
+
+    callSendApi(templateMessage);
+}
+
+
 function receivedPostback(event) {
+
     let senderId = event.sender.id;
     let recipientId = event.recipient.id;
     let timeOfPostback = event.timestamp;
@@ -108,9 +138,16 @@ function receivedPostback(event) {
 
     console.log('Received postback for user %d and page %d with payload "%s" at %d', senderId, recipientId, payload, timeOfPostback);
 
-    // When a postback is called, we'll send a message back to the sender to
-    // let them know it was successful
-    sendTextMessage(senderId, 'Digite o número de rastreio da encomenda');
+    if (payload === 'starting') {
+        sendTextMessage(senderId, 'Digite o número de rastreio da encomenda');
+    } else {
+        checkOrder(payload)
+            .then(result => {
+                sendTextMessage(senderId, result);
+            });
+    }
+
+
 }
 
 function sendTextMessage(recipientId, messageText) {
