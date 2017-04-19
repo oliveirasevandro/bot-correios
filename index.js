@@ -190,6 +190,7 @@ function formatResult(result) {
     console.log('Formating result: ', result);
 
     if (result.erro) {
+        console.log('Error...');
         return 'Não foi possível localizar a encomenda';
     }
 
